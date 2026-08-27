@@ -1,0 +1,1372 @@
+{
+  "version": "1.0",
+  "workflowId": "a9e6de3a-dfca-402a-8296-bc923a4e1261",
+  "workflowName": "NEK2 Virtual Screening (Copy)",
+  "nodes": [
+    {
+      "id": "5038bbf6-f834-491e-947e-d9b77db1ce63",
+      "type": "module",
+      "module_id": "molecule-generation",
+      "model_id": "reinvent4",
+      "inputs": {},
+      "config": {
+        "reference_smiles": "",
+        "matching_substructure_smarts": "",
+        "custom_alerts_smarts": [],
+        "top_n": 10,
+        "scoring_components": {
+          "type": "geometric_mean",
+          "component": [
+            {
+              "QED": {
+                "endpoint": [
+                  {
+                    "name": "QED",
+                    "weight": 0.6,
+                    "transform": {
+                      "type": "double_sigmoid",
+                      "low": 0.5,
+                      "high": 1,
+                      "coef_div": 1,
+                      "coef_si": 20,
+                      "coef_se": 20
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "MolecularWeight": {
+                "endpoint": [
+                  {
+                    "name": "MW",
+                    "weight": 0.3,
+                    "transform": {
+                      "type": "double_sigmoid",
+                      "low": 200,
+                      "high": 500,
+                      "coef_div": 500,
+                      "coef_si": 20,
+                      "coef_se": 20
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "SlogP": {
+                "endpoint": [
+                  {
+                    "name": "SlogP",
+                    "weight": 0.3,
+                    "transform": {
+                      "type": "double_sigmoid",
+                      "low": -0.5,
+                      "high": 5.5,
+                      "coef_div": 5.5,
+                      "coef_si": 20,
+                      "coef_se": 20
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "TPSA": {
+                "endpoint": [
+                  {
+                    "name": "TPSA",
+                    "weight": 0.3,
+                    "transform": {
+                      "type": "double_sigmoid",
+                      "low": 20,
+                      "high": 120,
+                      "coef_div": 120,
+                      "coef_si": 20,
+                      "coef_se": 20
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "HBondAcceptors": {
+                "endpoint": [
+                  {
+                    "name": "HBondAcceptors",
+                    "weight": 0.3,
+                    "transform": {
+                      "type": "double_sigmoid",
+                      "low": 0,
+                      "high": 10,
+                      "coef_div": 10,
+                      "coef_si": 20,
+                      "coef_se": 20
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "HBondDonors": {
+                "endpoint": [
+                  {
+                    "name": "HBondDonors",
+                    "weight": 0.3,
+                    "transform": {
+                      "type": "double_sigmoid",
+                      "low": 0,
+                      "high": 5,
+                      "coef_div": 5,
+                      "coef_si": 20,
+                      "coef_se": 20
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "position": {
+        "x": 30,
+        "y": 195
+      },
+      "data": {
+        "nodeType": "molecule-generation",
+        "label": "Molecule Generation",
+        "icon": "wand-sparkles",
+        "color": "violet",
+        "inputs": [
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": false,
+            "description": "Seed/conditioning molecules (SMILES) for the seeded generators (`mol2mol` = similarity seed, `libinvent` = scaffold, `linkinvent` = warhead pair, `pepinvent` = masked peptide). Sent as the whole `smiles_list` in ONE RL run (not chunked per seed). OPTIONAL: the `reinvent` generator samples de novo and ignores this input.\n",
+            "tooltip": "Seed/conditioning molecules (SMILES) for the seeded generators (`mol2mol` = similarity seed, `libinvent` = scaffold, `linkinvent` = warhead pair, `pepinvent` = masked peptide). Sent as the whole `smiles_list` in ONE RL run (not chunked per seed). OPTIONAL: the `reinvent` generator samples de novo and ignores this input.\n",
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": true,
+            "description": "Top-scored molecules from the RL run (SMILES), each carrying its total `Score`, the per-component scores (QED, MW, …), and the RL step in `properties`. Feed into ADMET screening, docking, or candidate-library enrichment.\n",
+            "tooltip": "Top-scored molecules from the RL run (SMILES), each carrying its total `Score`, the per-component scores (QED, MW, …), and the RL step in `properties`. Feed into ADMET screening, docking, or candidate-library enrichment.\n",
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "config": {
+          "reference_smiles": "",
+          "matching_substructure_smarts": "",
+          "custom_alerts_smarts": [],
+          "top_n": 10,
+          "scoring_components": {
+            "type": "geometric_mean",
+            "component": [
+              {
+                "QED": {
+                  "endpoint": [
+                    {
+                      "name": "QED",
+                      "weight": 0.6,
+                      "transform": {
+                        "type": "double_sigmoid",
+                        "low": 0.5,
+                        "high": 1,
+                        "coef_div": 1,
+                        "coef_si": 20,
+                        "coef_se": 20
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "MolecularWeight": {
+                  "endpoint": [
+                    {
+                      "name": "MW",
+                      "weight": 0.3,
+                      "transform": {
+                        "type": "double_sigmoid",
+                        "low": 200,
+                        "high": 500,
+                        "coef_div": 500,
+                        "coef_si": 20,
+                        "coef_se": 20
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "SlogP": {
+                  "endpoint": [
+                    {
+                      "name": "SlogP",
+                      "weight": 0.3,
+                      "transform": {
+                        "type": "double_sigmoid",
+                        "low": -0.5,
+                        "high": 5.5,
+                        "coef_div": 5.5,
+                        "coef_si": 20,
+                        "coef_se": 20
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "TPSA": {
+                  "endpoint": [
+                    {
+                      "name": "TPSA",
+                      "weight": 0.3,
+                      "transform": {
+                        "type": "double_sigmoid",
+                        "low": 20,
+                        "high": 120,
+                        "coef_div": 120,
+                        "coef_si": 20,
+                        "coef_se": 20
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "HBondAcceptors": {
+                  "endpoint": [
+                    {
+                      "name": "HBondAcceptors",
+                      "weight": 0.3,
+                      "transform": {
+                        "type": "double_sigmoid",
+                        "low": 0,
+                        "high": 10,
+                        "coef_div": 10,
+                        "coef_si": 20,
+                        "coef_se": 20
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "HBondDonors": {
+                  "endpoint": [
+                    {
+                      "name": "HBondDonors",
+                      "weight": 0.3,
+                      "transform": {
+                        "type": "double_sigmoid",
+                        "low": 0,
+                        "high": 5,
+                        "coef_div": 5,
+                        "coef_si": 20,
+                        "coef_se": 20
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "engine": "reinvent4"
+        },
+        "outputStandardTypes": [
+          "COMPOUND"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "441201c6-5cca-4aec-99ab-57c2116134e7",
+      "type": "module",
+      "module_id": "target-mapping",
+      "model_id": "uniprot",
+      "inputs": {},
+      "config": {
+        "max_results": 5,
+        "require_human_review": true,
+        "query": "NEK2"
+      },
+      "position": {
+        "x": 15,
+        "y": -60
+      },
+      "data": {
+        "nodeType": "target-mapping",
+        "label": "Target Mapping",
+        "icon": "globe",
+        "color": "cyan",
+        "inputs": [],
+        "outputs": [
+          {
+            "id": "targets",
+            "name": "Targets",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "TARGET",
+            "providedStandardType": "TARGET"
+          },
+          {
+            "id": "sequences",
+            "name": "Sequences",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "SEQUENCE",
+            "providedStandardType": "SEQUENCE"
+          }
+        ],
+        "config": {
+          "max_results": 5,
+          "require_human_review": true,
+          "query": "NEK2",
+          "engine": "uniprot"
+        },
+        "outputStandardTypes": [
+          "TARGET",
+          "SEQUENCE"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "866f9791-59b2-41f0-9aa0-a8cfa7398581",
+      "type": "module",
+      "module_id": "structure-acquisition",
+      "model_id": "rcsb",
+      "inputs": {
+        "targets": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "441201c6-5cca-4aec-99ab-57c2116134e7",
+            "outputPath": "targets",
+            "displayLabel": "Target Mapping"
+          }
+        ]
+      },
+      "config": {
+        "preferred_pdb_id": "",
+        "include_alphafold_fallback": true,
+        "max_candidates": 5,
+        "require_human_review": false
+      },
+      "position": {
+        "x": 270,
+        "y": -60
+      },
+      "data": {
+        "nodeType": "structure-acquisition",
+        "label": "Structure Acquisition",
+        "icon": "database",
+        "color": "blue",
+        "inputs": [
+          {
+            "id": "targets",
+            "name": "Targets",
+            "type": "array",
+            "required": true,
+            "description": "Targets (UniProt-mapped) to resolve to 3-D protein structures. For each target, the module picks the best RCSB PDB entry by binding-site coverage and resolution, falling back to AlphaFold predicted structures when no experimental structure is available.\n",
+            "tooltip": "Targets (UniProt-mapped) to resolve to 3-D protein structures. For each target, the module picks the best RCSB PDB entry by binding-site coverage and resolution, falling back to AlphaFold predicted structures when no experimental structure is available.\n",
+            "expectedStandardType": "TARGET",
+            "providedStandardType": "TARGET"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "structures",
+            "name": "Structures",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "PROTEIN_STRUCTURE",
+            "providedStandardType": "PROTEIN_STRUCTURE"
+          }
+        ],
+        "config": {
+          "targets": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "441201c6-5cca-4aec-99ab-57c2116134e7",
+              "outputPath": "targets",
+              "displayLabel": "Target Mapping"
+            }
+          ],
+          "preferred_pdb_id": "",
+          "include_alphafold_fallback": true,
+          "max_candidates": 5,
+          "require_human_review": false,
+          "engine": "rcsb"
+        },
+        "outputStandardTypes": [
+          "PROTEIN_STRUCTURE"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+      "type": "module",
+      "module_id": "structure-preparation",
+      "model_id": "pdbfixer",
+      "inputs": {
+        "structures": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "866f9791-59b2-41f0-9aa0-a8cfa7398581",
+            "outputPath": "structures",
+            "displayLabel": "Structure Acquisition"
+          }
+        ]
+      },
+      "config": {},
+      "position": {
+        "x": 495,
+        "y": -60
+      },
+      "data": {
+        "nodeType": "structure-preparation",
+        "label": "Structure Preparation",
+        "icon": "tool",
+        "color": "sky",
+        "inputs": [
+          {
+            "id": "structures",
+            "name": "Structures",
+            "type": "array",
+            "required": true,
+            "description": "Raw protein structures to clean and repair — add missing atoms/residues, set protonation state at the chosen pH, and strip unwanted heterogens — before downstream pocket detection, docking, or refinement.\n",
+            "tooltip": "Raw protein structures to clean and repair — add missing atoms/residues, set protonation state at the chosen pH, and strip unwanted heterogens — before downstream pocket detection, docking, or refinement.\n",
+            "expectedStandardType": "PROTEIN_STRUCTURE",
+            "providedStandardType": "PROTEIN_STRUCTURE"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "prepared_structures",
+            "name": "Prepared Structures",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "PROTEIN_STRUCTURE",
+            "providedStandardType": "PROTEIN_STRUCTURE"
+          }
+        ],
+        "config": {
+          "structures": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "866f9791-59b2-41f0-9aa0-a8cfa7398581",
+              "outputPath": "structures",
+              "displayLabel": "Structure Acquisition"
+            }
+          ],
+          "engine": "pdbfixer"
+        },
+        "outputStandardTypes": [
+          "PROTEIN_STRUCTURE"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "c1c88b56-793c-43c0-abf0-72bcf7239a69",
+      "type": "module",
+      "module_id": "candidate-library",
+      "model_id": "rdkit",
+      "inputs": {
+        "compounds": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "5038bbf6-f834-491e-947e-d9b77db1ce63",
+            "outputPath": "compounds",
+            "displayLabel": "Molecule Generation"
+          }
+        ]
+      },
+      "config": {},
+      "position": {
+        "x": 300,
+        "y": 195
+      },
+      "data": {
+        "nodeType": "candidate-library",
+        "label": "Candidate Library",
+        "icon": "beaker",
+        "color": "amber",
+        "inputs": [
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": false,
+            "description": "Upstream compounds to enrich with property profiles (rdkit) or protonation variants (dimorphite-dl). Leave empty when using the vecurate source model — it queries the Vecura natural-compounds database directly from config.\n",
+            "tooltip": "Upstream compounds to enrich with property profiles (rdkit) or protonation variants (dimorphite-dl). Leave empty when using the vecurate source model — it queries the Vecura natural-compounds database directly from config.\n",
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "config": {
+          "compounds": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "5038bbf6-f834-491e-947e-d9b77db1ce63",
+              "outputPath": "compounds",
+              "displayLabel": "Molecule Generation"
+            }
+          ],
+          "engine": "rdkit"
+        },
+        "outputStandardTypes": [
+          "COMPOUND"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+      "type": "module",
+      "module_id": "admet-screening",
+      "model_id": "admet",
+      "inputs": {
+        "compounds": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "c1c88b56-793c-43c0-abf0-72bcf7239a69",
+            "outputPath": "compounds",
+            "displayLabel": "Candidate Library"
+          }
+        ]
+      },
+      "config": {
+        "route": "oral",
+        "thresholds": {}
+      },
+      "position": {
+        "x": 525,
+        "y": 195
+      },
+      "data": {
+        "nodeType": "admet-screening",
+        "label": "ADMET Screening",
+        "icon": "shield",
+        "color": "rose",
+        "inputs": [
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": true,
+            "description": "Small-molecule compounds to score for ADMET properties (absorption, distribution, metabolism, excretion, toxicity). Compounds that pass the route-specific hard-gate filter are forwarded on the `compounds` output for cascading into downstream docking.\n",
+            "tooltip": "Small-molecule compounds to score for ADMET properties (absorption, distribution, metabolism, excretion, toxicity). Compounds that pass the route-specific hard-gate filter are forwarded on the `compounds` output for cascading into downstream docking.\n",
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "profiles",
+            "name": "Profiles",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "ADMET_PROFILE",
+            "providedStandardType": "ADMET_PROFILE"
+          },
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": false,
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "config": {
+          "compounds": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "c1c88b56-793c-43c0-abf0-72bcf7239a69",
+              "outputPath": "compounds",
+              "displayLabel": "Candidate Library"
+            }
+          ],
+          "route": "oral",
+          "thresholds": {},
+          "engine": "admet"
+        },
+        "outputStandardTypes": [
+          "ADMET_PROFILE",
+          "COMPOUND"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "72f8a796-83b2-48fa-a859-058271002dcb",
+      "type": "module",
+      "module_id": "pocket-identification",
+      "model_id": "p2rank",
+      "inputs": {
+        "structures": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+            "outputPath": "prepared_structures",
+            "displayLabel": "Structure Preparation"
+          }
+        ]
+      },
+      "config": {},
+      "position": {
+        "x": 735,
+        "y": -60
+      },
+      "data": {
+        "nodeType": "pocket-identification",
+        "label": "Pocket Identification",
+        "icon": "target",
+        "color": "emerald",
+        "inputs": [
+          {
+            "id": "structures",
+            "name": "Structures",
+            "type": "array",
+            "required": true,
+            "description": "Protein structures to scan for ligand-binding pockets. Typically the prepared structures emitted by Structure Preparation; raw PDBs work but may contain heterogens that bias pocket detection.\n",
+            "tooltip": "Protein structures to scan for ligand-binding pockets. Typically the prepared structures emitted by Structure Preparation; raw PDBs work but may contain heterogens that bias pocket detection.\n",
+            "expectedStandardType": "PROTEIN_STRUCTURE",
+            "providedStandardType": "PROTEIN_STRUCTURE"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "pockets",
+            "name": "Pockets",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "POCKET",
+            "providedStandardType": "POCKET"
+          }
+        ],
+        "config": {
+          "structures": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+              "outputPath": "prepared_structures",
+              "displayLabel": "Structure Preparation"
+            }
+          ],
+          "engine": "p2rank"
+        },
+        "outputStandardTypes": [
+          "POCKET"
+        ],
+        "configValid": true,
+        "configErrors": [],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+      "type": "module",
+      "module_id": "docking",
+      "model_id": "gnina",
+      "inputs": {
+        "pocket": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "72f8a796-83b2-48fa-a859-058271002dcb",
+            "outputPath": "pockets",
+            "displayLabel": "Pocket Identification"
+          }
+        ],
+        "compounds": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+            "outputPath": "compounds",
+            "displayLabel": "ADMET Screening"
+          }
+        ],
+        "receptor": {
+          "type": "mapping",
+          "sourceNodeId": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+          "outputPath": "prepared_structures",
+          "displayLabel": "Structure Preparation"
+        }
+      },
+      "config": {
+        "num_modes": 1,
+        "binding_score_max": -1,
+        "exhaustiveness": 128
+      },
+      "position": {
+        "x": 1065,
+        "y": 75
+      },
+      "data": {
+        "nodeType": "docking",
+        "label": "Docking",
+        "icon": "link",
+        "color": "orange",
+        "inputs": [
+          {
+            "id": "receptor",
+            "name": "Receptor",
+            "type": "structure",
+            "required": true,
+            "description": "Protein receptor to dock the small-molecule ligands against (the target for vina, gnina, diffdock, sigmadock, smina, pandadock, surfdock, flowdock, dynamicbind).\n",
+            "tooltip": "Protein receptor to dock the small-molecule ligands against (the target for vina, gnina, diffdock, sigmadock, smina, pandadock, surfdock, flowdock, dynamicbind).\n",
+            "expectedStandardType": "PROTEIN_STRUCTURE",
+            "providedStandardType": "PROTEIN_STRUCTURE"
+          },
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": true,
+            "description": "Small-molecule ligands to dock against the receptor (at least one). Every docking model requires this — the adapters raise in prepare() on an empty list.\n",
+            "tooltip": "Small-molecule ligands to dock against the receptor (at least one). Every docking model requires this — the adapters raise in prepare() on an empty list.\n",
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          },
+          {
+            "id": "pocket",
+            "name": "Pocket",
+            "type": "array",
+            "required": false,
+            "description": "Predicted binding pocket(s) used to focus the docking search box. Optional — when omitted, each model falls back to its config-specified box (manual center/size) or runs blind docking (flowdock, dynamicbind, surfdock).\n",
+            "tooltip": "Predicted binding pocket(s) used to focus the docking search box. Optional — when omitted, each model falls back to its config-specified box (manual center/size) or runs blind docking (flowdock, dynamicbind, surfdock).\n",
+            "expectedStandardType": "POCKET",
+            "providedStandardType": "POCKET"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "poses",
+            "name": "Poses",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "DOCKED_STRUCTURE",
+            "providedStandardType": "DOCKED_STRUCTURE"
+          },
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": false,
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          }
+        ],
+        "config": {
+          "pocket": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "72f8a796-83b2-48fa-a859-058271002dcb",
+              "outputPath": "pockets",
+              "displayLabel": "Pocket Identification"
+            }
+          ],
+          "compounds": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+              "outputPath": "compounds",
+              "displayLabel": "ADMET Screening"
+            }
+          ],
+          "receptor": {
+            "type": "mapping",
+            "sourceNodeId": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+            "outputPath": "prepared_structures",
+            "displayLabel": "Structure Preparation"
+          },
+          "num_modes": 1,
+          "binding_score_max": -1,
+          "exhaustiveness": 128,
+          "engine": "gnina"
+        },
+        "outputStandardTypes": [
+          "DOCKED_STRUCTURE",
+          "COMPOUND"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "3a9419c1-3ee9-4764-9b67-3f88cb8805b0",
+      "type": "module",
+      "module_id": "binding-free-energy",
+      "model_id": "uni-gbsa",
+      "inputs": {
+        "complexes": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+            "outputPath": "poses",
+            "displayLabel": "Docking"
+          }
+        ]
+      },
+      "config": {
+        "igb": 2,
+        "threads": 4
+      },
+      "position": {
+        "x": 1320,
+        "y": 75
+      },
+      "data": {
+        "nodeType": "binding-free-energy",
+        "label": "Binding Free Energy",
+        "icon": "zap",
+        "color": "amber",
+        "inputs": [
+          {
+            "id": "complexes",
+            "name": "Complexes",
+            "type": "array",
+            "required": false,
+            "description": "Docked PROTEIN-LIGAND complexes to score (uni-gbsa path). Each pose's ligand (``pose_uri``) is paired with its receptor (``target_pdb_uri``) and run through MM-GB/PBSA. The ligand pose must be an RDKit-parseable SDF (``pose_format: sdf``) — feed output from an SDF-emitting docking model (diffdock / gnina / sigmadock / smina / surfdock / dynamicbind); pdbqt (autodock-vina) and pdb poses lack bond orders and are rejected. Each input emits one BINDING_FREE_ENERGY estimate (ΔG_bind + decomposition). Supply EITHER `complexes` (uni-gbsa) OR `trajectories` (g_mmpbsa) per node.\n",
+            "tooltip": "Docked PROTEIN-LIGAND complexes to score (uni-gbsa path). Each pose's ligand (``pose_uri``) is paired with its receptor (``target_pdb_uri``) and run through MM-GB/PBSA. The ligand pose must be an RDKit-parseable SDF (``pose_format: sdf``) — feed output from an SDF-emitting docking model (diffdock / gnina / sigmadock / smina / surfdock / dynamicbind); pdbqt (autodock-vina) and pdb poses lack bond orders and are rejected. Each input emits one BINDING_FREE_ENERGY estimate (ΔG_bind + decomposition). Supply EITHER `complexes` (uni-gbsa) OR `trajectories` (g_mmpbsa) per node.\n",
+            "expectedStandardType": "DOCKED_STRUCTURE",
+            "providedStandardType": "DOCKED_STRUCTURE"
+          },
+          {
+            "id": "trajectories",
+            "name": "Trajectories",
+            "type": "array",
+            "required": false,
+            "description": "Completed protein-ligand COMPLEX MD trajectories to score with end-point MM-PBSA (g_mmpbsa path) — wire directly from molecular-dynamics/gromacs (the `complexes` path). The adapter takes the GROMACS trajectory (``.xtc``) + run-input topology (``.tpr``) from ``properties.full_system_*`` and SYNTHESIZES the two files the worker also requires: a receptor/ligand index (``.ndx``, built from atom-count ranges — protein count from the viewer PDB, ligand count from ``properties.ligand.natoms``) and a static APBS parameter file (``.mdp``). The g_mmpbsa worker then computes ΔG_bind (van der Waals + electrostatic MM, polar and apolar solvation). Requires gromacs complex metadata (``properties.trajectory_viewer_pdb`` + ``ligand.natoms``). Supply EITHER `trajectories` (g_mmpbsa) OR `complexes` (uni-gbsa) per node.\n",
+            "tooltip": "Completed protein-ligand COMPLEX MD trajectories to score with end-point MM-PBSA (g_mmpbsa path) — wire directly from molecular-dynamics/gromacs (the `complexes` path). The adapter takes the GROMACS trajectory (``.xtc``) + run-input topology (``.tpr``) from ``properties.full_system_*`` and SYNTHESIZES the two files the worker also requires: a receptor/ligand index (``.ndx``, built from atom-count ranges — protein count from the viewer PDB, ligand count from ``properties.ligand.natoms``) and a static APBS parameter file (``.mdp``). The g_mmpbsa worker then computes ΔG_bind (van der Waals + electrostatic MM, polar and apolar solvation). Requires gromacs complex metadata (``properties.trajectory_viewer_pdb`` + ``ligand.natoms``). Supply EITHER `trajectories` (g_mmpbsa) OR `complexes` (uni-gbsa) per node.\n",
+            "expectedStandardType": "MD_TRAJECTORY",
+            "providedStandardType": "MD_TRAJECTORY"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "binding_energies",
+            "name": "Binding Energies",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "BINDING_FREE_ENERGY",
+            "providedStandardType": "BINDING_FREE_ENERGY"
+          }
+        ],
+        "config": {
+          "complexes": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+              "outputPath": "poses",
+              "displayLabel": "Docking"
+            }
+          ],
+          "igb": 2,
+          "threads": 4,
+          "engine": "uni-gbsa"
+        },
+        "outputStandardTypes": [
+          "BINDING_FREE_ENERGY"
+        ],
+        "configValid": true,
+        "configErrors": [],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "5ac0ad71-0a20-464a-b914-88cecfb9f77c",
+      "type": "module",
+      "module_id": "bioactivity-prediction",
+      "model_id": "ligospace",
+      "inputs": {
+        "docking_structures": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+            "outputPath": "poses",
+            "displayLabel": "Docking"
+          }
+        ]
+      },
+      "config": {
+        "assay_type": "IC50"
+      },
+      "position": {
+        "x": 1320,
+        "y": -120
+      },
+      "data": {
+        "nodeType": "bioactivity-prediction",
+        "label": "Bioactivity Prediction",
+        "icon": "activity",
+        "color": "fuchsia",
+        "inputs": [
+          {
+            "id": "docking_structures",
+            "name": "Docking Structures",
+            "type": "array",
+            "required": true,
+            "description": "Pre-docked compound–target complexes from the Docking module. Each pose is scored to predict bioactivity (pIC50 / pEC50) against the embedded target. DTIGN is pose-aware (every pose is scored); LigoSpace is SMILES-driven and de-duplicates poses by SMILES before scoring.\n",
+            "tooltip": "Pre-docked compound–target complexes from the Docking module. Each pose is scored to predict bioactivity (pIC50 / pEC50) against the embedded target. DTIGN is pose-aware (every pose is scored); LigoSpace is SMILES-driven and de-duplicates poses by SMILES before scoring.\n",
+            "expectedStandardType": "DOCKED_STRUCTURE",
+            "providedStandardType": "DOCKED_STRUCTURE"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "bioactivity_predictions",
+            "name": "Bioactivity Predictions",
+            "type": "array",
+            "required": true,
+            "expectedStandardType": "BIOACTIVITY_PREDICTION",
+            "providedStandardType": "BIOACTIVITY_PREDICTION"
+          }
+        ],
+        "config": {
+          "docking_structures": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+              "outputPath": "poses",
+              "displayLabel": "Docking"
+            }
+          ],
+          "assay_type": "IC50",
+          "engine": "ligospace"
+        },
+        "outputStandardTypes": [
+          "BIOACTIVITY_PREDICTION"
+        ],
+        "status": "idle"
+      }
+    },
+    {
+      "id": "19675100-9d39-456a-b4b7-9d6da12f2996",
+      "type": "module",
+      "module_id": "drug-target-interaction",
+      "model_id": "deeppurpose",
+      "inputs": {
+        "compounds": [
+          {
+            "type": "mapping",
+            "sourceNodeId": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+            "outputPath": "compounds",
+            "displayLabel": "ADMET Screening"
+          }
+        ],
+        "target": {
+          "type": "mapping",
+          "sourceNodeId": "441201c6-5cca-4aec-99ab-57c2116134e7",
+          "outputPath": "sequences",
+          "displayLabel": "Target Mapping"
+        }
+      },
+      "config": {
+        "top_k": 0,
+        "convert_log_scale": true
+      },
+      "position": {
+        "x": 1050,
+        "y": 240
+      },
+      "data": {
+        "nodeType": "drug-target-interaction",
+        "label": "Drug-Target Interaction",
+        "icon": "waypoints",
+        "color": "purple",
+        "inputs": [
+          {
+            "id": "compounds",
+            "name": "Compounds",
+            "type": "array",
+            "required": true,
+            "description": "Small-molecule compounds to screen against the target.",
+            "tooltip": "Small-molecule compounds to screen against the target.",
+            "expectedStandardType": "COMPOUND",
+            "providedStandardType": "COMPOUND"
+          },
+          {
+            "id": "target",
+            "name": "Target",
+            "type": "string",
+            "required": true,
+            "description": "Protein target sequence (FASTA string or s3:// URI to a .fasta file).",
+            "tooltip": "Protein target sequence (FASTA string or s3:// URI to a .fasta file).",
+            "expectedStandardType": "SEQUENCE",
+            "providedStandardType": "SEQUENCE"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "dti_predictions",
+            "name": "Dti Predictions",
+            "type": "array",
+            "required": true,
+            "description": "Predicted binding affinity scores ranked highest-first.",
+            "tooltip": "Predicted binding affinity scores ranked highest-first.",
+            "expectedStandardType": "BIOACTIVITY_PREDICTION",
+            "providedStandardType": "BIOACTIVITY_PREDICTION"
+          }
+        ],
+        "config": {
+          "compounds": [
+            {
+              "type": "mapping",
+              "sourceNodeId": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+              "outputPath": "compounds",
+              "displayLabel": "ADMET Screening"
+            }
+          ],
+          "target": {
+            "type": "mapping",
+            "sourceNodeId": "441201c6-5cca-4aec-99ab-57c2116134e7",
+            "outputPath": "sequences",
+            "displayLabel": "Target Mapping"
+          },
+          "top_k": 0,
+          "convert_log_scale": true,
+          "engine": "deeppurpose"
+        },
+        "outputStandardTypes": [
+          "BIOACTIVITY_PREDICTION"
+        ],
+        "status": "idle"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "441201c6-5cca-4aec-99ab-57c2116134e7",
+      "sourceHandle": null,
+      "target": "866f9791-59b2-41f0-9aa0-a8cfa7398581",
+      "targetHandle": null,
+      "id": "e441201c6-5cca-4aec-99ab-57c2116134e7-866f9791-59b2-41f0-9aa0-a8cfa7398581-28d0306b",
+      "data": {
+        "source_port": "targets",
+        "target_port": "targets"
+      },
+      "source_port": "targets",
+      "target_port": "targets"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "866f9791-59b2-41f0-9aa0-a8cfa7398581",
+      "sourceHandle": null,
+      "target": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+      "targetHandle": null,
+      "id": "e866f9791-59b2-41f0-9aa0-a8cfa7398581-f6319cf5-2d17-4148-ad51-c2589615a86a-a0037174",
+      "data": {
+        "source_port": "structures",
+        "target_port": "structures"
+      },
+      "source_port": "structures",
+      "target_port": "structures"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "c1c88b56-793c-43c0-abf0-72bcf7239a69",
+      "sourceHandle": null,
+      "target": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+      "targetHandle": null,
+      "id": "ec1c88b56-793c-43c0-abf0-72bcf7239a69-f5905571-67bc-4202-97c1-cb33f1b2d8df-c93696ba",
+      "data": {
+        "source_port": "compounds",
+        "target_port": "compounds"
+      },
+      "source_port": "compounds",
+      "target_port": "compounds"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+      "sourceHandle": null,
+      "target": "72f8a796-83b2-48fa-a859-058271002dcb",
+      "targetHandle": null,
+      "id": "ef6319cf5-2d17-4148-ad51-c2589615a86a-72f8a796-83b2-48fa-a859-058271002dcb-e5ddd9fc",
+      "data": {
+        "source_port": "prepared_structures",
+        "target_port": "structures"
+      },
+      "source_port": "prepared_structures",
+      "target_port": "structures"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "72f8a796-83b2-48fa-a859-058271002dcb",
+      "sourceHandle": null,
+      "target": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+      "targetHandle": null,
+      "id": "e72f8a796-83b2-48fa-a859-058271002dcb-8d9cccf5-fa91-4d0b-b5cd-92bc06b36823-a4436575",
+      "data": {
+        "source_port": "pockets",
+        "target_port": "pocket"
+      },
+      "source_port": "pockets",
+      "target_port": "pocket"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+      "sourceHandle": null,
+      "target": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+      "targetHandle": null,
+      "id": "ef5905571-67bc-4202-97c1-cb33f1b2d8df-8d9cccf5-fa91-4d0b-b5cd-92bc06b36823-0550b31d",
+      "data": {
+        "source_port": "compounds",
+        "target_port": "compounds"
+      },
+      "source_port": "compounds",
+      "target_port": "compounds"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+      "sourceHandle": null,
+      "target": "3a9419c1-3ee9-4764-9b67-3f88cb8805b0",
+      "targetHandle": null,
+      "id": "e8d9cccf5-fa91-4d0b-b5cd-92bc06b36823-3a9419c1-3ee9-4764-9b67-3f88cb8805b0-7802e641",
+      "data": {
+        "source_port": "poses",
+        "target_port": "complexes"
+      },
+      "source_port": "poses",
+      "target_port": "complexes"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+      "sourceHandle": null,
+      "target": "5ac0ad71-0a20-464a-b914-88cecfb9f77c",
+      "targetHandle": null,
+      "id": "e8d9cccf5-fa91-4d0b-b5cd-92bc06b36823-5ac0ad71-0a20-464a-b914-88cecfb9f77c-53d69bbc",
+      "data": {
+        "source_port": "poses",
+        "target_port": "docking_structures"
+      },
+      "source_port": "poses",
+      "target_port": "docking_structures"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "f5905571-67bc-4202-97c1-cb33f1b2d8df",
+      "sourceHandle": null,
+      "target": "19675100-9d39-456a-b4b7-9d6da12f2996",
+      "targetHandle": null,
+      "id": "ef5905571-67bc-4202-97c1-cb33f1b2d8df-19675100-9d39-456a-b4b7-9d6da12f2996-90cdf15a",
+      "data": {
+        "source_port": "compounds",
+        "target_port": "compounds"
+      },
+      "source_port": "compounds",
+      "target_port": "compounds"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "441201c6-5cca-4aec-99ab-57c2116134e7",
+      "sourceHandle": null,
+      "target": "19675100-9d39-456a-b4b7-9d6da12f2996",
+      "targetHandle": null,
+      "id": "e441201c6-5cca-4aec-99ab-57c2116134e7-19675100-9d39-456a-b4b7-9d6da12f2996-a9b8ee2b",
+      "data": {
+        "source_port": "sequences",
+        "target_port": "target"
+      },
+      "source_port": "sequences",
+      "target_port": "target"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "f6319cf5-2d17-4148-ad51-c2589615a86a",
+      "sourceHandle": null,
+      "target": "8d9cccf5-fa91-4d0b-b5cd-92bc06b36823",
+      "targetHandle": null,
+      "id": "ef6319cf5-2d17-4148-ad51-c2589615a86a-8d9cccf5-fa91-4d0b-b5cd-92bc06b36823-2373cc94",
+      "data": {
+        "source_port": "prepared_structures",
+        "target_port": "receptor"
+      },
+      "source_port": "prepared_structures",
+      "target_port": "receptor"
+    },
+    {
+      "type": "custom",
+      "style": {
+        "stroke": "#A1A1AA",
+        "strokeWidth": 2,
+        "opacity": 0.7
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#A1A1AA",
+        "width": 10,
+        "height": 10
+      },
+      "zIndex": 10,
+      "source": "5038bbf6-f834-491e-947e-d9b77db1ce63",
+      "sourceHandle": null,
+      "target": "c1c88b56-793c-43c0-abf0-72bcf7239a69",
+      "targetHandle": null,
+      "id": "e5038bbf6-f834-491e-947e-d9b77db1ce63-c1c88b56-793c-43c0-abf0-72bcf7239a69-65291e78",
+      "data": {
+        "source_port": "compounds",
+        "target_port": "compounds"
+      },
+      "source_port": "compounds",
+      "target_port": "compounds"
+    }
+  ],
+  "exportedAt": "2026-08-27T15:52:36.605Z"
+}

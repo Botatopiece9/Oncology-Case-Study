@@ -1,0 +1,6 @@
+name,smiles,properties.binding_score,properties.rank,properties.pose_uri,properties.target
+Cc1c(CN2CCC3(CCNCC3)CC2)cc(CCC(=O)O)c(O)c1C,Cc1c(CN2CCC3(CCNCC3)CC2)cc(CCC(=O)O)c(O)c1C,-8.31,1,s3://dev-vecura-workflow/model-router-outputs/4aaf221ec80d4c938ac9bed40de63d19/opt2_pose1.sdf,2W5A
+CCOc1ccc(CN(C)CC(=O)NCCc2cc(C)n[nH]2)cc1,CCOc1ccc(CN(C)CC(=O)NCCc2cc(C)n[nH]2)cc1,-7.34,1,s3://dev-vecura-workflow/model-router-outputs/53dcfa5f6dda4fbd96306021e49e8280/opt6_pose1.sdf,2W5A
+C=C1CCC2C(C)(CO)C(O)CCC2(C)C1CCc1ccoc1O,C=C1CCC2C(C)(CO)C(O)CCC2(C)C1CCc1ccoc1O,-7.44,1,s3://dev-vecura-workflow/model-router-outputs/212fd3bacbcf49c6979a4c408b5bd3c7/opt7_pose1.sdf,2W5A
+COC(=O)c1sc(Cl)cc1OCC(O)CNC(C)C,COC(=O)c1sc(Cl)cc1OCC(O)CNC(C)C,-5.95,1,s3://dev-vecura-workflow/model-router-outputs/e8060be536b64a5bb2707148976f5974/opt16_pose1.sdf,2W5A
+COc1ccc(CCNC(=O)CNC(=O)CC(C)C)cc1OC,COc1ccc(CCNC(=O)CNC(=O)CC(C)C)cc1OC,-6.87,1,s3://dev-vecura-workflow/model-router-outputs/b650465a62e14a5d9914ab94d21a03b6/opt19_pose1.sdf,2W5A

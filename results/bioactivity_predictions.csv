@@ -1,0 +1,6 @@
+compound_id,smiles,target_name,assay_type,assay_value,status,properties.resolved_pdb_id
+pose,Cc1c(CN2CCC3(CCNCC3)CC2)cc(CCC(=O)O)c(O)c1C,2W5A,IC50,3.3697612285614014,success,2W5A
+pose,CCOc1ccc(CN(C)CC(=O)NCCc2cc(C)n[nH]2)cc1,2W5A,IC50,3.5706634521484375,success,2W5A
+pose,C=C1CCC2C(C)(CO)C(O)CCC2(C)C1CCc1ccoc1O,2W5A,IC50,3.2676162719726562,success,2W5A
+pose,COC(=O)c1sc(Cl)cc1OCC(O)CNC(C)C,2W5A,IC50,3.943065643310547,success,2W5A
+pose,COc1ccc(CCNC(=O)CNC(=O)CC(C)C)cc1OC,2W5A,IC50,3.422214984893799,success,2W5A

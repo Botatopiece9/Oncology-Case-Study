@@ -1,0 +1,2 @@
+name,s3_uri,format,properties.uniprot_id,properties.pdb_id,properties.source,properties.resolution,properties.method,properties.duration_ms,properties.prepared_by
+NEK2,s3://dev-vecura-workflow/model-router-outputs/44e7d539c4b5450a8dd4adb595463ee9/prepared.pdb,pdb,P51955,2W5A,PDB,1.55 A,X-ray,3627.2778511047363,pdbfixer

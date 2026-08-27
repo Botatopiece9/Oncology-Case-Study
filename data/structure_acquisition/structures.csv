@@ -1,0 +1,2 @@
+name,s3_uri,format,properties.uniprot_id,properties.pdb_id,properties.source,properties.resolution,properties.method
+NEK2,s3://dev-vecura-workflow/structure-acquisition-tmp/eb050d6f-e3f3-4a8e-8e3f-2ba7d41547dd/NEK2.pdb,pdb,P51955,2W5A,PDB,1.55 A,X-ray
