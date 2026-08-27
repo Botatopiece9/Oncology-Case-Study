@@ -15,7 +15,7 @@ This repository contains the exported workflow definition and the per-stage inpu
 
 ## Pipeline overview
 
-The workflow is an 11-node directed graph (`workflow/NEK2_Virtual_Screening_workflow.json`) with two branches that converge at docking:
+The workflow is an 11-node directed graph ([`workflow/NEK2_Virtual_Screening_workflow.json`](workflow/NEK2_Virtual_Screening_workflow.json)) with two branches that converge at docking:
 
 ```
 Target Mapping ──► Structure Acquisition ──► Structure Preparation ──┬──► Pocket Identification ─┐
@@ -88,7 +88,7 @@ Of the 20 REINVENT4-generated candidates, 5 compounds passed ADMET screening and
 
 ## Reproducing / re-importing the run
 
-The complete workflow — including every node's engine choice, parameters, and connectivity — is stored in `workflow/NEK2_Virtual_Screening_workflow.json`. It can be re-imported into Vecura to rerun or modify the pipeline.
+The complete workflow — including every node's engine choice, parameters, and connectivity — is stored in [`workflow/NEK2_Virtual_Screening_workflow.json`](workflow/NEK2_Virtual_Screening_workflow.json). It can be re-imported into Vecura to rerun or modify the pipeline.
 
 ## Notes
 
